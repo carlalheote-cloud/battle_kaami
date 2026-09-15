@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Diagnostic capillaire Kaami</title>
+<meta name="description" content="Diagnostic capillaire gratuit en 10 questions — Kaami, La Résistante" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-raised: #FBF8F4;
+    --ink: #6B4226;
+    --ink-soft: #8A6B4C;
+    --ink-faint: #B29A7E;
+    --accent: #8A6A45;
+    --accent-dark: #6B4226;
+    --accent-tint: #F1E6D6;
+    --line: #ECE3D4;
+    --line-strong: #DCCFB6;
+    --focus: #4A3826;
+    --error: #A8432F;
+    --success: #4B6B52;
+    --shadow: 0 1px 2px rgba(74,56,38,0.04), 0 8px 24px -12px rgba(74,56,38,0.16);
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #1B1815;
+      --surface: #24211C;
+      --surface-raised: #29251F;
+      --ink: #F4EEE4;
+      --ink-soft: #C4B8A6;
+      --ink-faint: #8A8072;
+      --accent: #D3AE7E;
+      --accent-dark: #E8CDA1;
+      --accent-tint: #362E22;
+      --line: #3A342B;
+      --line-strong: #4A4234;
+      --focus: #D3AE7E;
+      --error: #E08A72;
+      --success: #8FB79A;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #1B1815;
+    --surface: #24211C;
+    --surface-raised: #29251F;
+    --ink: #F4EEE4;
+    --ink-soft: #C4B8A6;
+    --ink-faint: #8A8072;
+    --accent: #D3AE7E;
+    --accent-dark: #E8CDA1;
+    --accent-tint: #362E22;
+    --line: #3A342B;
+    --line-strong: #4A4234;
+    --focus: #D3AE7E;
+    --error: #E08A72;
+    --success: #8FB79A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing: border-box; }
+  html, body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding-inline: 20px;
+    padding-block: max(28px, env(safe-area-inset-top, 0px)) max(40px, env(safe-area-inset-bottom, 0px));
+  }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+
+  h1,h2,h3{
+    font-family: "Fraunces", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0;
+  }
+  p{ margin:0; }
+
+  .eyebrow{
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+  }
+
+  a{ color: inherit; }
+
+  /* ---------- Shell ---------- */
+  .shell{
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .site-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+    padding-block: 4px 28px;
+  }
+  .logo{
+    font-family: "Fraunces", serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .header-tag{
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Progress ---------- */
+  .progress-wrap{
+    margin-bottom: 28px;
+  }
+  .progress-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .progress-meta strong{ color: var(--ink); font-weight: 600; }
+  .progress-track{
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar{
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.45s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* ---------- Intro ---------- */
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .intro-card{
+    padding: 40px clamp(20px, 5vw, 48px);
+    text-align: left;
+  }
+  .intro-card h1{
+    font-size: clamp(30px, 5vw, 42px);
+    margin-top: 14px;
+  }
+  .intro-card .lede{
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+  .intro-points{
+    margin-top: 28px;
+    display: grid;
+    gap: 12px;
+    padding: 0;
+    list-style: none;
+  }
+  .intro-points li{
+    display:flex;
+    gap: 12px;
+    align-items:flex-start;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .intro-points .dot{
+    flex: none;
+    width: 6px; height: 6px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .intro-foot{
+    margin-top: 32px;
+    display:flex;
+    align-items:center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .intro-note{
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: "Public Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 15px 30px;
+    transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:active{ transform: scale(0.98); }
+  .btn:focus-visible{ outline: 2px solid var(--focus); outline-offset: 3px; }
+  .btn-primary{
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .btn-primary:hover{ background: var(--accent-dark); }
+  .btn-primary:disabled{
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .btn-ghost{
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--line-strong);
+    padding: 14px 26px;
+  }
+  .btn-ghost:hover{ border-color: var(--accent); color: var(--ink); }
+
+  /* ---------- Question card ---------- */
+  .question-card{
+    padding: 36px clamp(18px, 4.5vw, 44px) 32px;
+  }
+  .q-title{
+    font-size: clamp(21px, 3.4vw, 27px);
+    margin-top: 10px;
+  }
+  .q-sub{
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .options{
+    margin-top: 26px;
+    display: grid;
+    gap: 10px;
+  }
+  .option{
+    position: relative;
+  }
+  .option input{
+    position: absolute;
+    opacity: 0;
+    width: 1px; height: 1px;
+  }
+  .option label{
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface-raised);
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .option label:hover{ border-color: var(--line-strong); }
+  .option .ring{
+    flex: none;
+    width: 19px; height: 19px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-strong);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: border-color 0.15s ease;
+  }
+  .option .ring::after{
+    content:"";
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: scale(0);
+    transition: transform 0.15s ease;
+  }
+  .option input:checked + label{
+    border-color: var(--accent);
+    background: var(--accent-tint);
+  }
+  .option input:checked + label .ring{ border-color: var(--accent); }
+  .option input:checked + label .ring::after{ transform: scale(1); }
+  .option input:focus-visible + label{
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .q-actions{
+    margin-top: 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 14px;
+  }
+  .step-count{
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Results ---------- */
+  .result-card{
+    padding: 40px clamp(20px, 5vw, 48px) 36px;
+  }
+  .result-eyebrow{ display:flex; align-items:center; gap: 10px; }
+  .result-eyebrow .pulse{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--success);
+  }
+  .result-title{
+    font-size: clamp(26px, 4.6vw, 36px);
+    margin-top: 14px;
+  }
+  .result-profile{
+    color: var(--accent-dark);
+  }
+  .result-lede{
+    margin-top: 14px;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 56ch;
+  }
+
+  .stat-row{
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .stat{
+    background: var(--surface-raised);
+    padding: 18px 14px;
+    text-align:center;
+  }
+  .stat b{
+    display:block;
+    font-family: "Fraunces", serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat span{
+    display:block;
+    margin-top: 4px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  .locked-block{
+    margin-top: 28px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 14px;
+    padding: 22px clamp(16px, 4vw, 26px);
+    background: var(--surface-raised);
+  }
+  .locked-block .locked-title{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .locked-lines{
+    margin-top: 14px;
+    display:grid;
+    gap: 9px;
+  }
+  .locked-line{
+    height: 11px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--line), var(--accent-tint), var(--line));
+    background-size: 200% 100%;
+    animation: shimmer 2.6s ease-in-out infinite;
+    opacity: 0.9;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .locked-line{ animation: none; }
+  }
+  .locked-line.w1{ width: 92%; }
+  .locked-line.w2{ width: 78%; }
+  .locked-line.w3{ width: 86%; }
+  @keyframes shimmer{
+    0%{ background-position: 200% 0; }
+    100%{ background-position: -200% 0; }
+  }
+
+  /* ---------- Email form ---------- */
+  .email-card{
+    margin-top: 22px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+  }
+  .email-title{
+    font-size: 18px;
+  }
+  .email-sub{
+    margin-top: 6px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    max-width: 50ch;
+  }
+  .field-row{
+    margin-top: 18px;
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .field{
+    flex: 1 1 220px;
+    display:flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field label{
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .field input[type="text"],
+  .field input[type="email"]{
+    font-family: "Public Sans", sans-serif;
+    font-size: 15px;
+    padding: 13px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .field input:focus-visible{
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+    border-color: var(--accent);
+  }
+  .field-error{
+    font-size: 12px;
+    color: var(--error);
+    min-height: 14px;
+  }
+  .consent-row{
+    margin-top: 14px;
+    display:flex;
+    gap: 10px;
+    align-items:flex-start;
+  }
+  .consent-row input{ margin-top: 3px; accent-color: var(--accent-dark); }
+  .consent-row label{
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+  }
+  .email-actions{
+    margin-top: 20px;
+  }
+  .email-actions .btn{ width: 100%; }
+  @media (min-width: 520px){
+    .email-actions .btn{ width: auto; }
+  }
+
+  /* ---------- Thank you ---------- */
+  .thanks-card{
+    padding: 48px clamp(20px, 6vw, 56px);
+    text-align: center;
+  }
+  .thanks-icon{
+    width: 52px; height: 52px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: var(--accent-tint);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--accent-dark);
+  }
+  .thanks-card h2{
+    margin-top: 20px;
+    font-size: clamp(24px, 4vw, 30px);
+  }
+  .thanks-card p{
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+  .thanks-mail{
+    margin-top: 18px;
+    display:inline-block;
+    font-family: "Fraunces", serif;
+    font-size: 16px;
+    color: var(--ink);
+    padding: 8px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface-raised);
+  }
+
+  .site-footer{
+    margin-top: 36px;
+    padding-top: 20px;
+    text-align:center;
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
+
+  .sr-only{
+    position:absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip: rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  @media (max-width: 480px){
+    .q-actions{ flex-direction: column-reverse; align-items: stretch; }
+    .q-actions .btn{ width: 100%; }
+    .step-count{ text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="site-header">
+    <span class="logo">KAAMI</span>
+    <span class="header-tag">Diagnostic capillaire — 2&nbsp;min</span>
+  </header>
+
+  <div class="progress-wrap" id="progressWrap" hidden>
+    <div class="progress-meta">
+      <span>Diagnostic capillaire</span>
+      <strong id="progressLabel">Question 1 / 10</strong>
+    </div>
+    <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+  </div>
+
+  <!-- ============ INTRO ============ -->
+  <section class="card intro-card" id="screenIntro">
+    <p class="eyebrow">Diagnostic gratuit</p>
+    <h1>Comprenez enfin la cause réelle de votre chute de cheveux.</h1>
+    <p class="lede">10 questions, 2 minutes. Kaami identifie votre profil capillaire parmi les causes les plus fréquentes — post-partum, dérèglement hormonal, stress chronique — et vous envoie une recommandation personnalisée, fondée sur nos résultats cliniques.</p>
+    <ul class="intro-points">
+      <li><span class="dot"></span> Basé sur l'étude clinique en double aveugle menée sur La Résistante (66 personnes, alopécie chronique)</li>
+      <li><span class="dot"></span> Un profil capillaire précis, pas un diagnostic générique</li>
+      <li><span class="dot"></span> Une routine recommandée, envoyée par email en fin de diagnostic</li>
+    </ul>
+    <div class="intro-foot">
+      <button class="btn btn-primary" type="button" id="btnStart">Commencer le diagnostic</button>
+      <span class="intro-note">Gratuit · Sans engagement · Résultat immédiat</span>
+    </div>
+  </section>
+
+  <!-- ============ QUESTIONS ============ -->
+  <section class="card question-card" id="screenQuestion" hidden>
+    <p class="eyebrow" id="qEyebrow">Question 1 sur 10</p>
+    <h2 class="q-title" id="qTitle"></h2>
+    <p class="q-sub" id="qSub" hidden></p>
+    <div class="options" id="qOptions" role="radiogroup"></div>
+    <div class="q-actions">
+      <button class="btn btn-ghost" type="button" id="btnBack">Précédent</button>
+      <button class="btn btn-primary" type="button" id="btnNext" disabled>Suivant</button>
+    </div>
+  </section>
+
+  <!-- ============ RESULT + EMAIL GATE ============ -->
+  <section class="card result-card" id="screenResult" hidden>
+    <div class="result-eyebrow">
+      <span class="pulse"></span>
+      <span class="eyebrow">Résultat de votre diagnostic</span>
+    </div>
+    <h2 class="result-title">Votre profil : <span class="result-profile" id="resultProfileName">—</span></h2>
+    <p class="result-lede" id="resultLede"></p>
+
+    <div class="stat-row">
+      <div class="stat"><b>+9 300</b><span>cheveux en 3 mois*</span></div>
+      <div class="stat"><b>−52%</b><span>de chute en 3 mois*</span></div>
+      <div class="stat"><b>66</b><span>personnes, étude en double aveugle</span></div>
+    </div>
+
+    <div class="locked-block">
+      <div class="locked-title">
+        <span>🔒</span> Votre routine personnalisée
+      </div>
+      <div class="locked-lines">
+        <div class="locked-line w1"></div>
+        <div class="locked-line w2"></div>
+        <div class="locked-line w3"></div>
+      </div>
+    </div>
+
+    <form class="email-card" id="emailForm" novalidate>
+      <h3 class="email-title">Recevez votre diagnostic complet</h3>
+      <p class="email-sub">Nous vous envoyons votre profil détaillé et la routine recommandée par email, avec la méthodologie de l'étude clinique.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="fieldFirstname">Prénom</label>
+          <input type="text" id="fieldFirstname" name="firstname" autocomplete="given-name" placeholder="Camille" />
+        </div>
+        <div class="field">
+          <label for="fieldEmail">Email <span aria-hidden="true">*</span><span class="sr-only">requis</span></label>
+          <input type="email" id="fieldEmail" name="email" autocomplete="email" placeholder="vous@exemple.com" required />
+          <span class="field-error" id="emailError" role="alert"></span>
+        </div>
+      </div>
+      <div class="consent-row">
+        <input type="checkbox" id="fieldConsent" name="consent" required />
+        <label for="fieldConsent">J'accepte de recevoir mon diagnostic ainsi que des conseils capillaires de Kaami par email. Désinscription possible à tout moment.</label>
+      </div>
+      <div class="email-actions">
+        <button class="btn btn-primary" type="submit">Recevoir mon diagnostic</button>
+      </div>
+      <p class="intro-note" style="margin-top:12px;">*Résultats observés après 3 mois de cure quotidienne de La Résistante, étude en double aveugle.</p>
+    </form>
+  </section>
+
+  <!-- ============ THANK YOU ============ -->
+  <section class="card thanks-card" id="screenThanks" hidden>
+    <div class="thanks-icon" aria-hidden="true">✓</div>
+    <h2>Votre diagnostic est en route.</h2>
+    <p>Nous venons d'envoyer votre profil capillaire détaillé et votre routine personnalisée à :</p>
+    <span class="thanks-mail" id="thanksEmail"></span>
+    <p style="margin-top:22px;">En attendant, découvrez La Résistante et le mécanisme d'action sur la phase de pousse du cheveu.</p>
+  </section>
+
+  <footer class="site-footer">Kaami — La Résistante · Diagnostic à visée indicative, ne remplace pas un avis médical.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* -----------------------------------------------------------
+     10 questions. Each option carries a weight object toward
+     four hair-loss profiles used elsewhere across Kaami's brand
+     platform ("les causes sont nommées, pas euphémisées"):
+       pp     = post-partum
+       horm   = hormonal (arrêt pilule / préménopause-ménopause)
+       stress = stress chronique
+       gen    = chute générale / autre cause
+  ----------------------------------------------------------- */
+  var QUESTIONS = [
+    {
+      title: "Quel âge avez-vous ?",
+      options: [
+        { label: "18 – 25 ans", w: { pp:0, horm:0, stress:1, gen:1 } },
+        { label: "26 – 35 ans", w: { pp:1, horm:1, stress:1, gen:0 } },
+        { label: "36 – 45 ans", w: { pp:1, horm:2, stress:0, gen:0 } },
+        { label: "46 ans et plus", w: { pp:0, horm:3, stress:0, gen:0 } }
+      ]
+    },
+    {
+      title: "Depuis combien de temps constatez-vous une chute plus importante que d'habitude ?",
+      options: [
+        { label: "Moins de 3 mois", w: { pp:0, horm:0, stress:1, gen:1 } },
+        { label: "3 à 6 mois", w: { pp:1, horm:1, stress:1, gen:0 } },
+        { label: "6 à 12 mois", w: { pp:1, horm:1, stress:0, gen:1 } },
+        { label: "Plus d'un an", w: { pp:0, horm:1, stress:0, gen:2 } }
+      ]
+    },
+    {
+      title: "Dans quelle situation vous trouvez-vous actuellement ?",
+      sub: "Choisissez la réponse la plus proche de votre situation.",
+      options: [
+        { label: "Post-partum (accouchement au cours des 12 derniers mois)", w: { pp:4, horm:0, stress:0, gen:0 } },
+        { label: "Arrêt récent d'une contraception hormonale", w: { pp:0, horm:4, stress:0, gen:0 } },
+        { label: "Préménopause ou ménopause", w: { pp:0, horm:4, stress:0, gen:0 } },
+        { label: "Aucune de ces situations", w: { pp:0, horm:0, stress:1, gen:2 } }
+      ]
+    },
+    {
+      title: "Avez-vous subi un changement hormonal au cours des 12 derniers mois ?",
+      options: [
+        { label: "Oui, un changement important", w: { pp:1, horm:3, stress:0, gen:0 } },
+        { label: "Oui, un changement léger", w: { pp:0, horm:2, stress:0, gen:0 } },
+        { label: "Non", w: { pp:0, horm:0, stress:1, gen:1 } },
+        { label: "Je ne sais pas", w: { pp:0, horm:1, stress:0, gen:1 } }
+      ]
+    },
+    {
+      title: "À quelle fréquence êtes-vous confronté(e) à une situation de stress ?",
+      options: [
+        { label: "Quotidiennement", w: { pp:0, horm:0, stress:4, gen:0 } },
+        { label: "Plusieurs fois par semaine", w: { pp:0, horm:0, stress:3, gen:0 } },
+        { label: "Occasionnellement", w: { pp:0, horm:0, stress:1, gen:1 } },
+        { label: "Rarement", w: { pp:0, horm:0, stress:0, gen:2 } }
+      ]
+    },
+    {
+      title: "Comment décririez-vous votre chute de cheveux ?",
+      options: [
+        { label: "Diffuse, sur tout le crâne", w: { pp:1, horm:1, stress:1, gen:0 } },
+        { label: "Localisée (tempes, raie, golfes)", w: { pp:0, horm:2, stress:0, gen:0 } },
+        { label: "Par touffes, au brossage ou à la douche", w: { pp:2, horm:0, stress:1, gen:0 } },
+        { label: "Difficile à dire précisément", w: { pp:0, horm:0, stress:0, gen:2 } }
+      ]
+    },
+    {
+      title: "Où se situe principalement la chute ?",
+      options: [
+        { label: "Racines et tempes", w: { pp:0, horm:2, stress:0, gen:0 } },
+        { label: "Sommet du crâne", w: { pp:0, horm:1, stress:0, gen:1 } },
+        { label: "Diffuse, sur toute la tête", w: { pp:1, horm:0, stress:2, gen:0 } },
+        { label: "Je ne sais pas", w: { pp:0, horm:0, stress:0, gen:2 } }
+      ]
+    },
+    {
+      title: "Avez-vous déjà testé des solutions pour lutter contre la chute ?",
+      options: [
+        { label: "Compléments alimentaires", w: { pp:0, horm:0, stress:0, gen:1 } },
+        { label: "Shampoings ou sérums", w: { pp:0, horm:0, stress:0, gen:1 } },
+        { label: "Traitement médical (type minoxidil)", w: { pp:0, horm:1, stress:0, gen:0 } },
+        { label: "Aucune solution testée pour l'instant", w: { pp:1, horm:0, stress:1, gen:0 } }
+      ]
+    },
+    {
+      title: "Comment qualifieriez-vous votre alimentation et votre sommeil en ce moment ?",
+      options: [
+        { label: "Équilibrés, sans souci particulier", w: { pp:0, horm:0, stress:0, gen:1 } },
+        { label: "Quelques carences ou nuits courtes", w: { pp:1, horm:0, stress:2, gen:0 } },
+        { label: "Plutôt déséquilibrés en ce moment", w: { pp:1, horm:0, stress:3, gen:0 } },
+        { label: "Je ne sais pas trop", w: { pp:0, horm:0, stress:1, gen:1 } }
+      ]
+    },
+    {
+      title: "Quel est votre objectif principal avec une cure capillaire ?",
+      options: [
+        { label: "Stopper la chute le plus rapidement possible", w: { pp:1, horm:1, stress:1, gen:1 } },
+        { label: "Relancer la pousse en profondeur", w: { pp:1, horm:1, stress:1, gen:1 } },
+        { label: "Épaissir durablement la masse capillaire", w: { pp:1, horm:1, stress:1, gen:1 } },
+        { label: "Retrouver confiance en moi", w: { pp:1, horm:1, stress:1, gen:1 } }
+      ]
+    }
+  ];
+
+  var PROFILES = {
+    pp: {
+      name: "Chute post-partum",
+      lede: "Votre parcours évoque une chute liée au post-partum : un dérèglement hormonal naturel après l'accouchement, qui fait basculer un grand nombre de cheveux en phase de repos simultanément. Chez Kaami, on agit sur la phase de pousse (anagène) pour rééquilibrer durablement le cycle, plutôt que de simplement retarder la chute."
+    },
+    horm: {
+      name: "Chute d'origine hormonale",
+      lede: "Vos réponses pointent vers une cause hormonale : arrêt de contraception, préménopause ou ménopause. C'est l'une des causes les plus fréquentes — et les moins nommées. La formule La Résistante, à base de peptides et d'acides aminés marins fortement concentrés, cible directement la phase de pousse du cheveu plutôt que sa seule chute."
+    },
+    stress: {
+      name: "Chute liée au stress chronique",
+      lede: "Le stress chronique perturbe le cycle capillaire en accélérant le passage à la phase de chute. Vos réponses montrent une exposition régulière au stress, associée à d'éventuelles carences. Une action en profondeur sur la phase de pousse, associée à une meilleure hygiène de vie, est généralement la voie la plus durable."
+    },
+    gen: {
+      name: "Chute diffuse, cause à préciser",
+      lede: "Votre profil ne correspond pas à une cause unique et dominante — c'est fréquent, et cela mérite un diagnostic plus poussé. Nous vous détaillons par email les pistes les plus probables et la routine recommandée pour agir sur la phase de pousse du cheveu."
+    }
+  };
+
+  var state = {
+    step: 0,
+    answers: new Array(QUESTIONS.length).fill(null)
+  };
+
+  var screenIntro = document.getElementById("screenIntro");
+  var screenQuestion = document.getElementById("screenQuestion");
+  var screenResult = document.getElementById("screenResult");
+  var screenThanks = document.getElementById("screenThanks");
+  var progressWrap = document.getElementById("progressWrap");
+  var progressBar = document.getElementById("progressBar");
+  var progressLabel = document.getElementById("progressLabel");
+
+  var qEyebrow = document.getElementById("qEyebrow");
+  var qTitle = document.getElementById("qTitle");
+  var qSub = document.getElementById("qSub");
+  var qOptions = document.getElementById("qOptions");
+  var btnBack = document.getElementById("btnBack");
+  var btnNext = document.getElementById("btnNext");
+
+  function show(el){ el.hidden = false; }
+  function hide(el){ el.hidden = true; }
+
+  document.getElementById("btnStart").addEventListener("click", function(){
+    hide(screenIntro);
+    show(progressWrap);
+    show(screenQuestion);
+    renderQuestion();
+  });
+
+  function renderQuestion(){
+    var i = state.step;
+    var q = QUESTIONS[i];
+
+    qEyebrow.textContent = "Question " + (i + 1) + " sur " + QUESTIONS.length;
+    qTitle.textContent = q.title;
+    if (q.sub) { qSub.textContent = q.sub; show(qSub); } else { hide(qSub); }
+
+    qOptions.innerHTML = "";
+    q.options.forEach(function(opt, idx){
+      var wrap = document.createElement("div");
+      wrap.className = "option";
+
+      var input = document.createElement("input");
+      input.type = "radio";
+      input.name = "q" + i;
+      input.id = "q" + i + "opt" + idx;
+      input.value = String(idx);
+      if (state.answers[i] === idx) input.checked = true;
+
+      var label = document.createElement("label");
+      label.setAttribute("for", input.id);
+      var ring = document.createElement("span");
+      ring.className = "ring";
+      var text = document.createElement("span");
+      text.textContent = opt.label;
+      label.appendChild(ring);
+      label.appendChild(text);
+
+      input.addEventListener("change", function(){
+        state.answers[i] = idx;
+        btnNext.disabled = false;
+      });
+
+      wrap.appendChild(input);
+      wrap.appendChild(label);
+      qOptions.appendChild(wrap);
+    });
+
+    btnNext.disabled = state.answers[i] === null;
+    btnNext.textContent = (i === QUESTIONS.length - 1) ? "Voir mon résultat" : "Suivant";
+    btnBack.style.visibility = (i === 0) ? "hidden" : "visible";
+
+    var pct = Math.round(((i) / QUESTIONS.length) * 100);
+    progressBar.style.width = pct + "%";
+    progressLabel.textContent = "Question " + (i + 1) + " / " + QUESTIONS.length;
+  }
+
+  btnBack.addEventListener("click", function(){
+    if (state.step === 0) return;
+    state.step -= 1;
+    renderQuestion();
+  });
+
+  btnNext.addEventListener("click", function(){
+    if (state.answers[state.step] === null) return;
+    if (state.step < QUESTIONS.length - 1){
+      state.step += 1;
+      renderQuestion();
+    } else {
+      finishQuiz();
+    }
+  });
+
+  function computeProfile(){
+    var totals = { pp:0, horm:0, stress:0, gen:0 };
+    state.answers.forEach(function(ansIdx, qi){
+      if (ansIdx === null) return;
+      var w = QUESTIONS[qi].options[ansIdx].w;
+      Object.keys(w).forEach(function(k){ totals[k] += w[k]; });
+    });
+    var best = "gen", bestScore = -1;
+    Object.keys(totals).forEach(function(k){
+      if (totals[k] > bestScore){ bestScore = totals[k]; best = k; }
+    });
+    return best;
+  }
+
+  function finishQuiz(){
+    progressBar.style.width = "100%";
+    progressLabel.textContent = "Question " + QUESTIONS.length + " / " + QUESTIONS.length;
+
+    var profileKey = computeProfile();
+    var profile = PROFILES[profileKey];
+    document.getElementById("resultProfileName").textContent = profile.name;
+    document.getElementById("resultLede").textContent = profile.lede;
+
+    hide(screenQuestion);
+    hide(progressWrap);
+    show(screenResult);
+    screenResult.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  /* ---------------- Email capture ---------------- */
+  var emailForm = document.getElementById("emailForm");
+  var fieldEmail = document.getElementById("fieldEmail");
+  var emailError = document.getElementById("emailError");
+
+  function isValidEmail(v){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  emailForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    var email = fieldEmail.value.trim();
+    if (!isValidEmail(email)){
+      emailError.textContent = "Merci de renseigner une adresse email valide.";
+      fieldEmail.focus();
+      return;
+    }
+    emailError.textContent = "";
+
+    var payload = {
+      firstname: document.getElementById("fieldFirstname").value.trim(),
+      email: email,
+      profile: document.getElementById("resultProfileName").textContent,
+      answers: state.answers,
+      source: "diagnostic-capillaire"
+    };
+
+    /* ------------------------------------------------------------
+       INTÉGRATION CRM / ESP — à brancher ici.
+       Remplacer ce bloc par l'appel réel vers Klaviyo, Brevo ou le
+       endpoint Shopify/backend de Kaami, par ex. :
+
+         fetch("/api/diagnostic-lead", {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+           body: JSON.stringify(payload)
+         });
+
+       `payload` contient déjà l'email, le prénom, le profil calculé
+       et le détail des réponses pour permettre une segmentation fine
+       côté CRM (ex : séquence email dédiée par profil).
+    ------------------------------------------------------------ */
+    console.log("Diagnostic lead (à envoyer au CRM) :", payload);
+
+    document.getElementById("thanksEmail").textContent = email;
+    hide(screenResult);
+    show(screenThanks);
+    screenThanks.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+})();
+</script>
+</body>
+</html>
